@@ -2,7 +2,7 @@ const { Sequelize } = require('sequelize')
 
 // Database
 const sequelize = new Sequelize(
-  '', // TODO: database connection string
+  process.env.DATABASE_URL,
   {
     dialect: 'postgres',
     dialectOptions: {
@@ -18,7 +18,11 @@ const sequelize = new Sequelize(
   },
 )
 
+
 sequelize.authenticate()
+  .then(() => console.log('Database connection established successfully.'))
+  .catch(err => console.error('Unable to connect to the database:', err))
+
 sequelize.sync()
 
 module.exports = sequelize
