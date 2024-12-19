@@ -1,0 +1,20 @@
+databases:
+  - name: AppDatabase
+    type: postgresql
+    plan: free # Plan gratuit
+    region: oregon # Choisissez la région la plus proche de vos utilisateurs
+
+services:
+  - type: web_service
+    name: NodeApp
+    repo: https://github.com/utilisateur/mon-repo.git # Remplacez par l'URL de votre dépôt
+    branch: main # Branche principale
+    buildCommand: npm install
+    startCommand: node ./bin/www # Commande pour démarrer votre application (Express)
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: AppDatabase
+          property: connectionString
